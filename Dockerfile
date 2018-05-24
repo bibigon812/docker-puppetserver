@@ -19,7 +19,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends git -y puppetserver="$PUPPET_SERVER_VERSION" && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    /opt/puppetlabs/puppet/bin/gem install librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
+    /opt/puppetlabs/puppet/bin/gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
 
 COPY puppetserver /etc/default/puppetserver
 COPY logback.xml /etc/puppetlabs/puppetserver/
