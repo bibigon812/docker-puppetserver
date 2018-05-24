@@ -5,7 +5,7 @@ ENV PUPPET_SERVER_VERSION="4.7.1" \
     UBUNTU_CODENAME="xenial" \
     PUPPETSERVER_JAVA_ARGS="-Xms512m -Xmx512m" \
     PATH=/opt/puppetlabs/server/bin:/opt/puppetlabs/puppet/bin:/opt/puppetlabs/bin:$PATH \
-    PUPPET_HEALTHCHECK_ENVIRONMENT="production"
+    PUPPET_HEALTHCHECK_ENVIRONMENT="production" \
     LIBRARIAN_PUPPET_VERSION="2.2.1"
 
 RUN apt-get update && \
