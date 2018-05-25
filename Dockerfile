@@ -20,7 +20,7 @@ RUN apt-get update && \
     dpkg -i dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
     rm puppetlabs-release-pc1-"$UBUNTU_CODENAME".deb dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
     apt-get update && \
-    apt-get install --no-install-recommends git -y puppetserver="$PUPPET_SERVER_VERSION" && \
+    apt-get install --no-install-recommends git openssh-client -y puppetserver="$PUPPET_SERVER_VERSION" && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
