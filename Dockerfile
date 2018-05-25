@@ -6,7 +6,10 @@ ENV PUPPET_SERVER_VERSION="2.7.1-1puppetlabs1" \
     PUPPETSERVER_JAVA_ARGS="-Xms512m -Xmx512m" \
     PATH=/opt/puppetlabs/server/bin:/opt/puppetlabs/puppet/bin:/opt/puppetlabs/bin:$PATH \
     PUPPET_HEALTHCHECK_ENVIRONMENT="production" \
-    LIBRARIAN_PUPPET_VERSION="2.2.1"
+    LIBRARIAN_PUPPET_VERSION="2.2.1" \
+    GIT_PRIVATE_KEY_FILE="/etc/puppetlabs/git/id_rsa" \
+    GIT_TIMEOUT=30
+
 
 RUN apt-get update && \
     apt-get install -y wget=1.17.1-1ubuntu1 && \
@@ -19,7 +22,7 @@ RUN apt-get update && \
     apt-get install --no-install-recommends git -y puppetserver="$PUPPET_SERVER_VERSION" && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    /opt/puppetlabs/puppet/bin/gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
+    gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
 
 COPY puppetserver /etc/default/puppetserver
 # COPY logback.xml /etc/puppetlabs/puppetserver/
