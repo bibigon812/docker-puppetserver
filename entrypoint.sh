@@ -1,8 +1,5 @@
 #!/bin/bash
 
-mkdir -p /etc/puppetlabs/code/lib
-mkdir -p /etc/puppetlabs/code/environments/production/{hieradata,manifests}
-
 chown -R puppet:puppet /etc/puppetlabs/puppet/ssl
 chown -R puppet:puppet /opt/puppetlabs/server/data/puppetserver/
 
