@@ -1,7 +1,8 @@
 ## Puppetserver
 
-### Environment
+### Environment Variables
 
-* GIT_CODE
-* GIT_TIMEOUT
 * GIT_PRIVATE_KEY_FILE
+* GIT_SOURCE
+* GIT_SSH_COMMAND
+* GIT_TIMEOUT
