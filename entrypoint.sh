@@ -3,7 +3,7 @@
 chown -R puppet:puppet /etc/puppetlabs/puppet/ssl
 chown -R puppet:puppet /opt/puppetlabs/server/data/puppetserver/
 
-export GIT_SSH_COMMAND="ssh -i ${GIT_SSH_PRIVATE_KEY} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+export GIT_SSH_COMMAND="ssh -i ${GIT_PRIVATE_KEY_FILE} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
 function loop_update_from_git {
   while true; do
@@ -43,5 +43,7 @@ fi
 if [ -n "${PUPPETDB_SERVER_URLS}" ]; then
   sed -i "s@^server_urls.*@server_urls = ${PUPPETDB_SERVER_URLS}@" /etc/puppetlabs/puppet/puppetdb.conf
 fi
+
+sleep ${GIT_TIMEOUT}
 
 exec /opt/puppetlabs/bin/puppetserver "$@"
