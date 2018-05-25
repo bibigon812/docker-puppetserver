@@ -36,7 +36,7 @@ function loop_update_from_git {
   done
 }
 
-if [ -n "${GIT_CODE}" ]; then
+if [ -n "${GIT_SOURCE}" ]; then
   loop_update_from_git &
 fi
 
