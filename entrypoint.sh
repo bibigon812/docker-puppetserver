@@ -8,6 +8,9 @@ chown -R puppet:puppet /etc/puppetlabs/puppet/ssl
 chown -R puppet:puppet /opt/puppetlabs/server/data/puppetserver/
 
 function loop_update_from_git {
+  echo "${GIT_PRIVATE_KEY_FILE}"
+  cat ${GIT_PRIVATE_KEY_FILE}
+
   while true; do
     sleep ${GIT_TIMEOUT}
 
