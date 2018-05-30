@@ -26,10 +26,13 @@ RUN apt-get update && \
     gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
 
 COPY puppetserver /etc/default/puppetserver
+COPY auth.conf /etc/puppetlabs/puppet/
 COPY logback.xml /etc/puppetlabs/puppetserver/
 COPY request-logging.xml /etc/puppetlabs/puppetserver/
 
-RUN puppet config set autosign true --section master
+RUN puppet config set autosign true --section master && \
+    puppet config set basemodulepath '$codedir/modules:$codedir/vendor/modules:/opt/puppetlabs/puppet/modules' --section main && \
+    puppet config set libdir /etc/puppetlabs/code/lib --section master
 
 COPY entrypoint.sh /
 
