@@ -3,8 +3,6 @@
 chown -R puppet:puppet /etc/puppetlabs/puppet/ssl
 chown -R puppet:puppet /opt/puppetlabs/server/data/puppetserver/
 
-export GIT_SSH_COMMAND="ssh -i ${GIT_PRIVATE_KEY_FILE} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-
 function loop_update_from_git {
   while true; do
     sleep ${GIT_TIMEOUT}
@@ -30,7 +28,7 @@ function loop_update_from_git {
         --cert   $(puppet config print hostcert) \
         --key    $(puppet config print hostprivkey) \
         --cacert $(puppet config print localcacert) \
-        https://puppet:8140/puppet-admin-api/v1/environment-cache \
+        -X DELETE 'https://puppet:8140/puppet-admin-api/v1/environment-cache'
 
     fi
   done
