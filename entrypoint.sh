@@ -46,3 +46,6 @@ if [ -n "${PUPPETDB_SERVER_URLS}" ]; then
 fi
 
 # exec /opt/puppetlabs/bin/puppetserver "$@"
+while true; do
+  sleep 100
+done
