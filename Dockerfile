@@ -26,8 +26,10 @@ RUN apt-get update && \
     gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
 
 COPY puppetserver /etc/default/puppetserver
-# COPY logback.xml /etc/puppetlabs/puppetserver/
-# COPY request-logging.xml /etc/puppetlabs/puppetserver/
+COPY logback.xml /etc/puppetlabs/puppetserver/
+COPY request-logging.xml /etc/puppetlabs/puppetserver/
+
+RUN puppet config set autosign true --section master
 
 COPY entrypoint.sh /
 
@@ -36,14 +38,14 @@ EXPOSE 8140
 ENTRYPOINT ["dumb-init", "/entrypoint.sh"]
 CMD ["foreground" ]
 
-# HEALTHCHECK --interval=10s --timeout=10s --retries=90 CMD \
-#   curl --fail -H 'Accept: pson' \
-#   --resolve 'puppet:8140:127.0.0.1' \
-#   --cert   $(puppet config print hostcert) \
-#   --key    $(puppet config print hostprivkey) \
-#   --cacert $(puppet config print localcacert) \
-#   https://puppet:8140/${PUPPET_HEALTHCHECK_ENVIRONMENT}/status/test \
-#   |  grep -q '"is_alive":true' \
-#   || exit 1
+HEALTHCHECK --interval=10s --timeout=10s --retries=90 CMD \
+  curl --fail -H 'Accept: pson' \
+  --resolve 'puppet:8140:127.0.0.1' \
+  --cert   $(puppet config print hostcert) \
+  --key    $(puppet config print hostprivkey) \
+  --cacert $(puppet config print localcacert) \
+  https://puppet:8140/${PUPPET_HEALTHCHECK_ENVIRONMENT}/status/test \
+  |  grep -q '"is_alive":true' \
+  || exit 1
 
 COPY Dockerfile /
