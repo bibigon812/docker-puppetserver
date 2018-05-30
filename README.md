@@ -1,6 +1,6 @@
-## Puppetserver
+# Puppetserver
 
-
+The current version is 4.7.1
 
 ### Environment Variables
 
