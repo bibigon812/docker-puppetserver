@@ -26,8 +26,8 @@ RUN apt-get update && \
     gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
 
 COPY puppetserver /etc/default/puppetserver
-COPY logback.xml /etc/puppetlabs/puppetserver/
-COPY request-logging.xml /etc/puppetlabs/puppetserver/
+# COPY logback.xml /etc/puppetlabs/puppetserver/
+# COPY request-logging.xml /etc/puppetlabs/puppetserver/
 
 RUN puppet config set autosign true --section master
 
