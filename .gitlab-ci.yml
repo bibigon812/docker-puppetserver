@@ -4,7 +4,6 @@ image: docker:stable
 variables:
   PUPPETSERVER_VERSION: "4.7.1"
   CONTAINER_IMAGE: docker-registry.spbtv.com/puppetserver-standalone
-  TAG:
 
 build:
   stage: build
