@@ -24,16 +24,14 @@ function loop_update_from_git {
     if [[ $changed == 1 ]]; then
       git reset --quiet --hard >/dev/null
       git clean --quiet -fd
-      git pull origin master >/dev/null
-      librarian-puppet install
-
-      # Clear environment cache
-      curl --resolve 'puppet:8140:127.0.0.1' \
-        --cert   $(puppet config print hostcert) \
-        --key    $(puppet config print hostprivkey) \
-        --cacert $(puppet config print localcacert) \
-        -X DELETE 'https://puppet:8140/puppet-admin-api/v1/environment-cache'
-
+      git pull origin master >/dev/null &&
+        librarian-puppet install &&
+        curl --resolve "$(hostname -f):8140:127.0.0.1" \
+          --cert   $(puppet config print hostcert) \
+          --key    $(puppet config print hostprivkey) \
+          --cacert $(puppet config print localcacert) \
+          -X DELETE \
+          "https://$(hostname -f):8140/puppet-admin-api/v1/environment-cache"
     fi
   done
 }
