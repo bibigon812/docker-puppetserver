@@ -10,7 +10,7 @@ ENV PUPPET_SERVER_VERSION="2.7.1-1puppetlabs1" \
     GIT_PRIVATE_KEY_FILE="/etc/puppetlabs/git/id_rsa" \
     GIT_TIMEOUT=30
 
-ENV GIT_SSH_COMMAND="ssh -v -i ${GIT_PRIVATE_KEY_FILE} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+ENV GIT_SSH_COMMAND="ssh -q -i ${GIT_PRIVATE_KEY_FILE} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
 RUN apt-get update && \
     apt-get install -y wget=1.17.1-1ubuntu1 && \
@@ -26,8 +26,8 @@ RUN apt-get update && \
     gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
 
 COPY puppetserver /etc/default/puppetserver
-# COPY logback.xml /etc/puppetlabs/puppetserver/
-# COPY request-logging.xml /etc/puppetlabs/puppetserver/
+COPY logback.xml /etc/puppetlabs/puppetserver/
+COPY request-logging.xml /etc/puppetlabs/puppetserver/
 
 RUN puppet config set autosign true --section master
 
@@ -35,17 +35,17 @@ COPY entrypoint.sh /
 
 EXPOSE 8140
 
-ENTRYPOINT ["dumb-init", "-v", "/entrypoint.sh"]
+ENTRYPOINT ["dumb-init", "/entrypoint.sh"]
 CMD ["foreground" ]
 
-# HEALTHCHECK --interval=10s --timeout=10s --retries=90 CMD \
-#   curl --fail -H 'Accept: pson' \
-#   --resolve 'puppet:8140:127.0.0.1' \
-#   --cert   $(puppet config print hostcert) \
-#   --key    $(puppet config print hostprivkey) \
-#   --cacert $(puppet config print localcacert) \
-#   https://puppet:8140/${PUPPET_HEALTHCHECK_ENVIRONMENT}/status/test \
-#   |  grep -q '"is_alive":true' \
-#   || exit 1
+HEALTHCHECK --interval=10s --timeout=10s --retries=90 CMD \
+  curl --fail -H 'Accept: pson' \
+  --resolve 'puppet:8140:127.0.0.1' \
+  --cert   $(puppet config print hostcert) \
+  --key    $(puppet config print hostprivkey) \
+  --cacert $(puppet config print localcacert) \
+  https://puppet:8140/${PUPPET_HEALTHCHECK_ENVIRONMENT}/status/test \
+  |  grep -q '"is_alive":true' \
+  || exit 1
 
 COPY Dockerfile /

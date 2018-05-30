@@ -1,19 +1,10 @@
 #!/bin/bash
 
-set -x
-
-env
-
 chown -R puppet:puppet /etc/puppetlabs/puppet/ssl
 chown -R puppet:puppet /opt/puppetlabs/server/data/puppetserver/
 
 function loop_update_from_git {
-  echo "${GIT_PRIVATE_KEY_FILE}"
-  cat ${GIT_PRIVATE_KEY_FILE}
-
   while true; do
-    sleep ${GIT_TIMEOUT}
-
     cd /etc/puppetlabs/code
     if [ ! -d '.git' ]; then
       git init
@@ -36,6 +27,8 @@ function loop_update_from_git {
           -X DELETE \
           "https://$(hostname -f):8140/puppet-admin-api/v1/environment-cache"
     fi
+
+    sleep ${GIT_TIMEOUT}
   done
 }
 
@@ -48,7 +41,4 @@ if [ -n "${PUPPETDB_SERVER_URLS}" ]; then
   sed -i "s@^server_urls.*@server_urls = ${PUPPETDB_SERVER_URLS}@" /etc/puppetlabs/puppet/puppetdb.conf
 fi
 
-# exec /opt/puppetlabs/bin/puppetserver "$@"
-while true; do
-  sleep 100
-done
+exec /opt/puppetlabs/bin/puppetserver "$@"
