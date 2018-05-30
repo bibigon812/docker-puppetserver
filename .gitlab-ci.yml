@@ -6,9 +6,13 @@ variables:
   CONTAINER_IMAGE: docker-registry.spbtv.com/puppetserver-standalone
 
 build:
+  except:
+    paths:
+      - README.md
+      - .gitlab-cy.yml
   stage: build
   script:
     - docker pull $CONTAINER_IMAGE:latest || true
     - docker build --rm --force-rm --pull --tag $CONTAINER_IMAGE:$PUPPETSERVER_VERSION.$CI_BUILD_REF --tag $CONTAINER_IMAGE:latest .
-    - docker push $CONTAINER_IMAGE:$PUPPETSERVER_VERSION.$CI_BUILD_REF
+    - docker push $CONTAINER_IMAGE:$PUPPETSERVER_VERSION.$CI_JOB_ID
     - docker push $CONTAINER_IMAGE:latest
