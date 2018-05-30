@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 chown -R puppet:puppet /etc/puppetlabs/puppet/ssl
 chown -R puppet:puppet /opt/puppetlabs/server/data/puppetserver/
 
