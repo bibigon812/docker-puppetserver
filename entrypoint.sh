@@ -24,7 +24,7 @@ function loop_update_from_git {
     if [[ $changed == 1 ]]; then
       git reset --quiet --hard >/dev/null
       git clean --quiet -fd
-      git pull origin master >/dev/null 2>&1
+      git pull origin master >/dev/null
       librarian-puppet install
 
       # Clear environment cache
