@@ -10,7 +10,7 @@ ENV PUPPET_SERVER_VERSION="2.7.1-1puppetlabs1" \
     GIT_PRIVATE_KEY_FILE="/etc/puppetlabs/git/id_rsa" \
     GIT_TIMEOUT=30
 
-ENV GIT_SSH_COMMAND="ssh -i ${GIT_PRIVATE_KEY_FILE} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+ENV GIT_SSH_COMMAND="ssh -q -i ${GIT_PRIVATE_KEY_FILE} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
 RUN apt-get update && \
     apt-get install -y wget=1.17.1-1ubuntu1 && \
