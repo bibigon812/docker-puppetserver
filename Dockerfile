@@ -26,7 +26,7 @@ RUN apt-get update && \
     gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
 
 COPY puppetserver /etc/default/puppetserver
-COPY auth.conf /etc/puppetlabs/puppet/
+COPY auth.conf /etc/puppetlabs/puppetserver/conf.d/
 COPY logback.xml /etc/puppetlabs/puppetserver/
 COPY request-logging.xml /etc/puppetlabs/puppetserver/
 
