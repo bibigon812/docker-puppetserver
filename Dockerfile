@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ENV PUPPET_SERVER_VERSION="2.7.1-1puppetlabs1" \
+ENV PUPPET_SERVER_VERSION="2.6.0-1puppetlabs1" \
     DUMB_INIT_VERSION="1.2.1" \
     UBUNTU_CODENAME="xenial" \
     PUPPETSERVER_JAVA_ARGS="-Xms512m -Xmx512m" \
