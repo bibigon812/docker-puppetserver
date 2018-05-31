@@ -1,6 +1,7 @@
 FROM ubuntu:16.04
 
 ENV PUPPET_SERVER_VERSION="2.6.0-1puppetlabs1" \
+    PUPPET_AGENT_VERSION="1.7.1-1xenial" \
     DUMB_INIT_VERSION="1.2.1" \
     UBUNTU_CODENAME="xenial" \
     PUPPETSERVER_JAVA_ARGS="-Xms512m -Xmx512m" \
@@ -20,7 +21,7 @@ RUN apt-get update && \
     dpkg -i dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
     rm puppetlabs-release-pc1-"$UBUNTU_CODENAME".deb dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
     apt-get update && \
-    apt-get install --no-install-recommends git openssh-client -y puppetserver="$PUPPET_SERVER_VERSION" && \
+    apt-get install --no-install-recommends git openssh-client -y puppetserver="$PUPPET_SERVER_VERSION" puppet-agent="$PUPPET_AGENT_VERSION" && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"

@@ -1,6 +1,7 @@
 # Puppetserver
 
-The current version is 4.7.1
+puppetsever = 2.6.0
+puppet-agent = 1.7.1
 
 ### Environment Variables
 
