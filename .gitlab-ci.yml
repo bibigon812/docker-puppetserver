@@ -8,6 +8,6 @@ variables:
 build:
   stage: build
   script:
-    - docker build --rm --force-rm --pull --tag $CONTAINER_IMAGE:$PUPPETSERVER_VERSION.$CI_JOB_ID --tag $CONTAINER_IMAGE:latest .
-    - docker push $CONTAINER_IMAGE:$PUPPETSERVER_VERSION.$CI_JOB_ID
+    - docker build --rm --force-rm --pull --tag $CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID --tag $CONTAINER_IMAGE:latest .
+    - docker push $CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID
     - docker push $CONTAINER_IMAGE:latest
