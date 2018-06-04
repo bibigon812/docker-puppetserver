@@ -3,11 +3,14 @@ image: docker:stable
 
 variables:
   PUPPET_SERVER_VERSION: "2.6.0"
-  CONTAINER_IMAGE: docker-registry.spbtv.com/puppetserver-standalone
+  DOCKER_REGISTRY: docker-registry.spbtv.com
+  CONTAINER_IMAGE: puppetserver-standalone
 
 build:
   stage: build
   script:
-    - docker build --rm --force-rm --pull --tag $CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID --tag $CONTAINER_IMAGE:latest .
-    - docker push $CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID
-    - docker push $CONTAINER_IMAGE:latest
+    - docker build --rm --tag $CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID .
+    - docker tag $CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID $DOCKER_REGISTRY/$CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID
+    - docker tag $CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID $DOCKER_REGISTRY/$CONTAINER_IMAGE:latest
+    - docker push $DOCKER_REGISTRY/$CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID
+    - docker push $DOCKER_REGISTRY/$CONTAINER_IMAGE:latest
