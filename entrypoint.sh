@@ -3,15 +3,15 @@
 chown -R puppet:puppet /etc/puppetlabs/puppet/ssl
 chown -R puppet:puppet /opt/puppetlabs/server/data/puppetserver/
 
-# BEGIN Setup r10k
-mkdir -p ${CACHE_DIR}
-mkdir -p ${R10K_CONFIG_DIR}
-/init.rb
-# END Setup r10k
-
-mkdir -p ${GIT_TEMP_DIR}
-
 function loop_update_from_git {
+  # BEGIN Setup r10k
+  mkdir -p ${CACHE_DIR}
+  mkdir -p ${R10K_CONFIG_DIR}
+  /init.rb
+  # END Setup r10k
+
+  mkdir -p ${GIT_TEMP_DIR}
+
   pushd ${GIT_TEMP_DIR}
 
   while true; do
