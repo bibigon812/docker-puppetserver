@@ -4,10 +4,10 @@
 require 'yaml'
 
 config = {
-  cachedir: ENV['CACHE_DIR'],
-  source: {
-    basedir: ENV['ENVIRONMENTS_BASE_DIR'],
-    remote: ENV['GIT_REMOTE'],
+  'cachedir' => ENV['CACHE_DIR'],
+  'sources' => {
+    'basedir' => ENV['ENVIRONMENTS_BASE_DIR'],
+    'remote' => ENV['GIT_REMOTE'],
   }
 }
 
