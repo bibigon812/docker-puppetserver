@@ -16,7 +16,7 @@ ENV CACHE_DIR="/var/cache/r10k" \
     R10K_CONFIG_FILE="${R10K_CONFIG_DIR}/r10k.yaml"
 
 RUN apt-get update && \
-    apt-get install -y wget=1.17.1-1ubuntu1 && \
+    apt-get install -y wget && \
     wget https://apt.puppetlabs.com/puppet5-release-"${CODE_NAME}".deb && \
     wget https://github.com/Yelp/dumb-init/releases/download/v"$DUMB_INIT_VERSION"/dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
     dpkg -i puppet5-release-"${CODE_NAME}".deb && \
