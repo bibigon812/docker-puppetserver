@@ -11,8 +11,7 @@ ENV CACHE_DIR="/var/cache/r10k" \
     PATH=/opt/puppetlabs/server/bin:/opt/puppetlabs/puppet/bin:/opt/puppetlabs/bin:$PATH \
     PUPPETSERVER_JAVA_ARGS="-Xms1g -Xmx1g -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger" \
     R10K_CONFIG_TEMPLATE="/r10k.yaml.erb" \
-    R10K_CONFIG_DIR="/etc/puppetlabs/r10k" \
-    R10K_CONFIG_FILE="$R10K_CONFIG_DIR/r10k.yaml"
+    R10K_CONFIG_DIR="/etc/puppetlabs/r10k"
 
 RUN apt-get update && \
     apt-get install -y wget && \
