@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-cache_dir                    = ENV['CACHE_DIR']
-git_remote                   = ENV['GIT_REMOTE']
-puppet_environemnts_base_dir = ENV['ENVIRONMENTS_BASE_DIR']
+cache_dir             = ENV['CACHE_DIR']
+git_remote            = ENV['GIT_REMOTE']
+environemnts_base_dir = ENV['ENVIRONMENTS_BASE_DIR']
 
 require 'erb'
 
