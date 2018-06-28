@@ -1,30 +1,33 @@
-FROM ubuntu:16.04
+ARG DEBIAN_CODE_NAME=stretch
+FROM debian:${DEBIAN_CODE_NAME}-slim
 
-ENV PUPPET_SERVER_VERSION="2.6.0-1puppetlabs1" \
-    PUPPET_AGENT_VERSION="1.7.1-1xenial" \
+ENV CACHE_DIR="/var/cache/r10k" \
+    DEBIAN_CODE_NAME=${DEBIAN_CODE_NAME} \
     DUMB_INIT_VERSION="1.2.1" \
-    UBUNTU_CODENAME="xenial" \
-    PUPPETSERVER_JAVA_ARGS="-Xms512m -Xmx512m" \
+    ENVIRONMENTS_BASE_DIR="/etc/puppetlabs/code/environments"
+    GIT_REMOTE="https://gitlab+deploy-token-3:FoSURJ3yossz9MAfD7pz@gitlab.spbtv.com/Trezin/Templates/puppet-environment.git"
+    GIT_TEMP_DIR="/tmp/git"
+    HEALTHCHECK_ENVIRONMENT="production" \
+    LIBRARIAN_PUPPET_VERSION="3.0.0" \
     PATH=/opt/puppetlabs/server/bin:/opt/puppetlabs/puppet/bin:/opt/puppetlabs/bin:$PATH \
-    PUPPET_HEALTHCHECK_ENVIRONMENT="production" \
-    LIBRARIAN_PUPPET_VERSION="2.2.1" \
-    GIT_PRIVATE_KEY_FILE="/etc/puppetlabs/git/id_rsa" \
-    GIT_TIMEOUT=30
-
-ENV GIT_SSH_COMMAND="ssh -q -i ${GIT_PRIVATE_KEY_FILE} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+    PUPPETSERVER_JAVA_ARGS="-Xms1g -Xmx1g -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger" \
+    R10K_CONFIG_TEMPLATE="/r10k.yaml.erb" \
+    R10K_CONFIG_DIR="/etc/puppetlabs/r10k" \
+    R10K_CONFIG_FILE="${R10K_CONFIG_DIR}/r10k.yaml"
 
 RUN apt-get update && \
     apt-get install -y wget=1.17.1-1ubuntu1 && \
-    wget https://apt.puppetlabs.com/puppetlabs-release-pc1-"$UBUNTU_CODENAME".deb && \
+    wget https://apt.puppetlabs.com/puppet5-release-"${CODE_NAME}".deb && \
     wget https://github.com/Yelp/dumb-init/releases/download/v"$DUMB_INIT_VERSION"/dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
-    dpkg -i puppetlabs-release-pc1-"$UBUNTU_CODENAME".deb && \
+    dpkg -i puppet5-release-"${CODE_NAME}".deb && \
     dpkg -i dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
-    rm puppetlabs-release-pc1-"$UBUNTU_CODENAME".deb dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
+    rm puppet5-release-"${CODE_NAME}".deb dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
     apt-get update && \
-    apt-get install --no-install-recommends git openssh-client -y puppetserver="$PUPPET_SERVER_VERSION" puppet-agent="$PUPPET_AGENT_VERSION" && \
+    apt-get install --no-install-recommends --assume-yes git puppetserver && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    gem install --no-rdoc --no-ri librarian-puppet --version="$LIBRARIAN_PUPPET_VERSION"
+    gem install --no-rdoc --no-ri librarian-puppet && \
+    gem install --no-rdoc --no-ri r10k
 
 COPY puppetserver /etc/default/puppetserver
 COPY auth.conf /etc/puppetlabs/puppetserver/conf.d/
@@ -35,6 +38,8 @@ RUN puppet config set autosign true --section master && \
     puppet config set basemodulepath '$codedir/modules:$codedir/vendor/modules:/opt/puppetlabs/puppet/modules' --section main && \
     puppet config set libdir /etc/puppetlabs/code/lib --section master
 
+COPY init.rb /
+COPY r10k.yaml.erb /
 COPY entrypoint.sh /
 
 EXPOSE 8140
@@ -44,12 +49,12 @@ CMD ["foreground" ]
 
 HEALTHCHECK --interval=10s --timeout=10s --retries=90 CMD \
   curl --fail -H 'Accept: pson' \
-  --resolve 'puppet:8140:127.0.0.1' \
-  --cert   $(puppet config print hostcert) \
-  --key    $(puppet config print hostprivkey) \
-  --cacert $(puppet config print localcacert) \
-  https://puppet:8140/${PUPPET_HEALTHCHECK_ENVIRONMENT}/status/test \
-  |  grep -q '"is_alive":true' \
-  || exit 1
+    --resolve 'puppet:8140:127.0.0.1' \
+    --cert   $(puppet config print hostcert) \
+    --key    $(puppet config print hostprivkey) \
+    --cacert $(puppet config print localcacert) \
+    https://puppet:8140/${HEALTHCHECK_ENVIRONMENT}/status/test \
+    |  grep -q '"is_alive":true' \
+    || exit 1
 
 COPY Dockerfile /
