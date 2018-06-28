@@ -25,10 +25,14 @@ function loop_update_from_git {
     git show $last_commit >/dev/null 2>/dev/null || changed=1
 
     if [[ $changed == 1 ]]; then
+      git fetch --all
       r10k deploy environment
       pushd ${ENVIRONMENTS_BASE_DIR}
       for dir in $(find . -type d); do
+        echo "Find ${dir} environment"
+        pushd ${dir}
         librarian-puppet install
+        popd
       done
       popd
       curl --resolve "$(hostname -f):8140:127.0.0.1" \

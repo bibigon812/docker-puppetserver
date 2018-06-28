@@ -7,6 +7,7 @@ ENV CACHE_DIR="/var/cache/r10k" \
     ENVIRONMENTS_BASE_DIR="/etc/puppetlabs/code/environments" \
     GIT_REMOTE="https://gitlab+deploy-token-3:FoSURJ3yossz9MAfD7pz@gitlab.spbtv.com/Trezin/Templates/puppet-environment.git" \
     GIT_TEMP_DIR="/tmp/git" \
+    GIT_TIMEOUT=30 \
     HEALTHCHECK_ENVIRONMENT="production" \
     PATH=/opt/puppetlabs/server/bin:/opt/puppetlabs/puppet/bin:/opt/puppetlabs/bin:$PATH \
     PUPPETSERVER_JAVA_ARGS="-Xms1g -Xmx1g -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger" \
