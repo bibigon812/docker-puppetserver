@@ -3,7 +3,7 @@
 
 cache_dir             = ENV['CACHE_DIR']
 git_remote            = ENV['GIT_REMOTE']
-environemnts_base_dir = ENV['ENVIRONMENTS_BASE_DIR']
+environments_base_dir = ENV['ENVIRONMENTS_BASE_DIR']
 
 require 'erb'
 
