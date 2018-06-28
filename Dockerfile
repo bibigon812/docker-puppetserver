@@ -17,11 +17,11 @@ ENV CACHE_DIR="/var/cache/r10k" \
 
 RUN apt-get update && \
     apt-get install -y wget && \
-    wget https://apt.puppetlabs.com/puppet5-release-"${CODE_NAME}".deb && \
+    wget https://apt.puppetlabs.com/puppet5-release-"${DEBIAN_CODE_NAME}".deb && \
     wget https://github.com/Yelp/dumb-init/releases/download/v"$DUMB_INIT_VERSION"/dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
-    dpkg -i puppet5-release-"${CODE_NAME}".deb && \
+    dpkg -i puppet5-release-"${DEBIAN_CODE_NAME}".deb && \
     dpkg -i dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
-    rm puppet5-release-"${CODE_NAME}".deb dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
+    rm puppet5-release-"${DEBIAN_CODE_NAME}".deb dumb-init_"$DUMB_INIT_VERSION"_amd64.deb && \
     apt-get update && \
     apt-get install --no-install-recommends --assume-yes git puppetserver && \
     apt-get clean && \
