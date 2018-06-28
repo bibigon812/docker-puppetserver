@@ -10,8 +10,11 @@ function loop_update_from_git {
   /init.rb
   # END Setup r10k
 
-  mkdir -p ${GIT_TEMP_DIR}
+  CERT=$(puppet config print hostcert)
+  KEY=$(puppet config print hostprivkey)
+  CACERT=$(puppet config print localcacert)
 
+  mkdir -p ${GIT_TEMP_DIR}
   pushd ${GIT_TEMP_DIR}
 
   while true; do
@@ -36,9 +39,9 @@ function loop_update_from_git {
       done
       popd
       curl --resolve "$(hostname -f):8140:127.0.0.1" \
-        --cert   $(puppet config print hostcert) \
-        --key    $(puppet config print hostprivkey) \
-        --cacert $(puppet config print localcacert) \
+        --cert   ${CERT} \
+        --key    ${KEY} \
+        --cacert ${CACERT} \
         -X DELETE \
         "https://$(hostname -f):8140/puppet-admin-api/v1/environment-cache"
     fi
