@@ -1,8 +1,8 @@
-ARG DEBIAN_CODE_NAME=stretch
-FROM debian:${DEBIAN_CODE_NAME}-slim
+ARG debian_code_name=stretch
+FROM debian:${debian_code_name}-slim
 
 ENV CACHE_DIR="/var/cache/r10k" \
-    DEBIAN_CODE_NAME=${DEBIAN_CODE_NAME} \
+    DEBIAN_CODE_NAME=${debian_code_name} \
     DUMB_INIT_VERSION="1.2.1" \
     ENVIRONMENTS_BASE_DIR="/etc/puppetlabs/code/environments" \
     GIT_REMOTE="https://gitlab+deploy-token-3:FoSURJ3yossz9MAfD7pz@gitlab.spbtv.com/Trezin/Templates/puppet-environment.git" \
