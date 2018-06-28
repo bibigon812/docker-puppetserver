@@ -1,5 +1,5 @@
 ARG debian_code_name=stretch
-FROM debian:${debian_code_name}-slim
+FROM debian:${debian_code_name}
 
 ENV CACHE_DIR="/var/cache/r10k" \
     DEBIAN_CODE_NAME=${debian_code_name:-stretch} \
@@ -26,7 +26,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     gem install --no-rdoc --no-ri librarian-puppet && \
-    gem install --no-rdoc --no-ri r10k
+    gem install --no-rdoc --no-ri r10k && \
+    rm -rf /usr/share/man
 
 COPY puppetserver /etc/default/puppetserver
 COPY auth.conf /etc/puppetlabs/puppetserver/conf.d/
