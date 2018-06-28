@@ -2,10 +2,27 @@
 
 ## Environment Variables
 
+Just specify GIT_REMOTE.
+
+### Defaults
+
 - CACHE_DIR="/var/cache/r10k"
 - ENVIRONMENTS_BASE_DIR="/etc/puppetlabs/code/environments"
 - R10K_CONFIG_TEMPLATE="/r10k.yaml.erb"
-- R10L_CONFIG_DIR="/etc/puppetlbas/r10k"
-- R10K_CONFIG_FILE="${R10K_CONFIG_DIR}/r10k.yaml"
-- GIT_REMOTE="https://gitlab+deploy-token-3:FoSURJ3yossz9MAfD7pz@gitlab.spbtv.com/Trezin/Templates/puppet-environment.git" <-- CHANGE THIS
+- R10K_CONFIG_DIR="/etc/puppetlbas/r10k"
 - GIT_TIMEOUT = "30"
+
+## Deployment
+
+```yaml
+---
+name: puppet
+image: bibigon812/puppetserver
+ports:
+    - 8140:8140
+env:
+    GIT_REMOTE: https://username:token@git.example.com/project/repo.git
+volumes:
+    - /srv/puppet/ssl:/etc/puppetlabs/puppet/ssl/
+    - /srv/puppet/serverdata:/opt/puppetlabs/server/data/puppetserver/
+```

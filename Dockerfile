@@ -5,7 +5,6 @@ ENV CACHE_DIR="/var/cache/r10k" \
     DEBIAN_CODE_NAME=${debian_code_name:-stretch} \
     DUMB_INIT_VERSION="1.2.1" \
     ENVIRONMENTS_BASE_DIR="/etc/puppetlabs/code/environments" \
-    GIT_REMOTE="https://gitlab+deploy-token-3:FoSURJ3yossz9MAfD7pz@gitlab.spbtv.com/Trezin/Templates/puppet-environment.git" \
     GIT_TEMP_DIR="/tmp/git" \
     GIT_TIMEOUT=30 \
     HEALTHCHECK_ENVIRONMENT="production" \
