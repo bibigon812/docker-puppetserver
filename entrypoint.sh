@@ -17,7 +17,7 @@ function loop_update_from_git {
 
     if [ ! -d '.git' ]; then
       git init
-      git remote add origin $GIT_REMOTE
+      git remote add origin ${GIT_REMOTE}
     fi
 
     last_commit=$(git ls-remote origin | cut -f1)
