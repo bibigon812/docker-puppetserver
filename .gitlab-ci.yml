@@ -19,6 +19,7 @@ push:
   only:
     - tags
   script:
-    - docker tag $CONTAINER:latest $CONTAINER:$CI_COMMIT_TAG
-    - docker push $CONTAINER:latest
-    - docker push $CONTAINER:$CI_COMMIT_TAG
+    - docker tag $CONTAINER:latest $REGISTRY/$CONTAINER:$CI_COMMIT_TAG
+    - docker tag $CONTAINER:latest $REGISTRY/$CONTAINER:$CI_COMMIT_TAG
+    - docker push $REGISTRY/$CONTAINER:latest
+    - docker push $REGISTRY/$CONTAINER:$CI_COMMIT_TAG
