@@ -28,7 +28,7 @@ function loop_update_from_git {
       git fetch --all
       r10k deploy environment
       pushd ${ENVIRONMENTS_BASE_DIR}
-      for dir in $(find . -maxdepth 1 -type d \( ! name . \)); do
+      for dir in $(find . -maxdepth 1 -type d \( ! -name . \)); do
         echo "Find ${dir} environment"
         pushd ${dir}
         librarian-puppet install
