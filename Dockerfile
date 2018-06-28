@@ -44,7 +44,7 @@ EXPOSE 8140
 ENTRYPOINT ["dumb-init", "/entrypoint.sh"]
 CMD ["foreground"]
 
-HEALTHCHECK --interval=10s --timeout=10s --retries=90 CMD \
+HEALTHCHECK --interval=30s --timeout=10s --retries=90 CMD \
   curl --fail -H 'Accept: pson' \
     --resolve 'puppet:8140:127.0.0.1' \
     --cert   $(puppet config print hostcert) \
