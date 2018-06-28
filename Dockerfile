@@ -4,9 +4,9 @@ FROM debian:${DEBIAN_CODE_NAME}-slim
 ENV CACHE_DIR="/var/cache/r10k" \
     DEBIAN_CODE_NAME=${DEBIAN_CODE_NAME} \
     DUMB_INIT_VERSION="1.2.1" \
-    ENVIRONMENTS_BASE_DIR="/etc/puppetlabs/code/environments"
-    GIT_REMOTE="https://gitlab+deploy-token-3:FoSURJ3yossz9MAfD7pz@gitlab.spbtv.com/Trezin/Templates/puppet-environment.git"
-    GIT_TEMP_DIR="/tmp/git"
+    ENVIRONMENTS_BASE_DIR="/etc/puppetlabs/code/environments" \
+    GIT_REMOTE="https://gitlab+deploy-token-3:FoSURJ3yossz9MAfD7pz@gitlab.spbtv.com/Trezin/Templates/puppet-environment.git" \
+    GIT_TEMP_DIR="/tmp/git" \
     HEALTHCHECK_ENVIRONMENT="production" \
     LIBRARIAN_PUPPET_VERSION="3.0.0" \
     PATH=/opt/puppetlabs/server/bin:/opt/puppetlabs/puppet/bin:/opt/puppetlabs/bin:$PATH \
