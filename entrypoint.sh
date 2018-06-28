@@ -12,9 +12,9 @@ mkdir -p ${R10K_CONFIG_DIR}
 mkdir -p ${GIT_TEMP_DIR}
 
 function loop_update_from_git {
-  while true; do
-    pushd ${GIT_TEMP_DIR}
+  pushd ${GIT_TEMP_DIR}
 
+  while true; do
     if [ ! -d '.git' ]; then
       git init
       git remote add origin ${GIT_REMOTE}
@@ -42,10 +42,11 @@ function loop_update_from_git {
         -X DELETE \
         "https://$(hostname -f):8140/puppet-admin-api/v1/environment-cache"
     fi
-    popd
 
     sleep ${GIT_TIMEOUT}
   done
+
+  popd
 }
 
 if [ -n "${GIT_REMOTE}" ]; then

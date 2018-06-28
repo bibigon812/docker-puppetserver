@@ -43,7 +43,7 @@ RUN puppet config set autosign true --section master
 EXPOSE 8140
 
 ENTRYPOINT ["dumb-init", "/entrypoint.sh"]
-CMD ["foreground" ]
+CMD ["foreground"]
 
 HEALTHCHECK --interval=10s --timeout=10s --retries=90 CMD \
   curl --fail -H 'Accept: pson' \
