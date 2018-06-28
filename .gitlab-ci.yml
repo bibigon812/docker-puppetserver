@@ -1,13 +1,24 @@
 ---
 image: docker:stable
 
+stages:
+  - build
+  - push
+
 variables:
-  PUPPET_SERVER_VERSION: "2.6.0"
-  CONTAINER_IMAGE: docker-registry.spbtv.com/puppetserver-standalone
+  CONTAINER: puppetserver-5
+  REGISTRY: docker-registry.spbtv.com
 
 build:
   stage: build
   script:
-    - docker build --rm --force-rm --pull --tag $CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID --tag $CONTAINER_IMAGE:latest .
-    - docker push $CONTAINER_IMAGE:$PUPPET_SERVER_VERSION.$CI_JOB_ID
-    - docker push $CONTAINER_IMAGE:latest
+    - docker build --rm --force-rm --pull --tag $CONTAINER:latest .
+
+push:
+  stage: push
+  only:
+    - tags
+  script:
+    - docker tag $CONTAINER:latest $CONTAINER:$CI_COMMIT_TAG
+    - docker push $CONTAINER:latest
+    - docker push $CONTAINER:$CI_COMMIT_TAG
