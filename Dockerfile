@@ -1,8 +1,9 @@
 ARG debian_code_name=stretch
-ARG dumb_init_version="1.2.1"
 FROM debian:${debian_code_name}-slim
 
 ENV CACHE_DIR="/var/cache/r10k" \
+    DEBIAN_CODE_NAME=${debian_code_name:-stretch} \
+    DUMB_INIT_VERSION="1.2.1" \
     ENVIRONMENTS_BASE_DIR="/etc/puppetlabs/code/environments" \
     GIT_REMOTE="https://gitlab+deploy-token-3:FoSURJ3yossz9MAfD7pz@gitlab.spbtv.com/Trezin/Templates/puppet-environment.git" \
     GIT_TEMP_DIR="/tmp/git" \
@@ -16,10 +17,10 @@ ENV CACHE_DIR="/var/cache/r10k" \
 RUN apt-get update && \
     apt-get install -y wget && \
     wget https://apt.puppetlabs.com/puppet5-release-"${debian_code_name}".deb && \
-    wget https://github.com/Yelp/dumb-init/releases/download/v"${dumb_init_version}"/dumb-init_"${dumb_init_version}"_amd64.deb && \
+    wget https://github.com/Yelp/dumb-init/releases/download/v"${DUMB_INIT_VERSION}"/dumb-init_"${DUMB_INIT_VERSION}"_amd64.deb && \
     dpkg -i puppet5-release-"${debian_code_name}".deb && \
-    dpkg -i dumb-init_"${dumb_init_version}"_amd64.deb && \
-    rm puppet5-release-"${debian_code_name}".deb dumb-init_"${dumb_init_version}"_amd64.deb && \
+    dpkg -i dumb-init_"${DUMB_INIT_VERSION}"_amd64.deb && \
+    rm puppet5-release-"${debian_code_name}".deb dumb-init_"${DUMB_INIT_VERSION}"_amd64.deb && \
     apt-get update && \
     apt-get install --no-install-recommends --assume-yes git puppetserver && \
     apt-get clean && \
