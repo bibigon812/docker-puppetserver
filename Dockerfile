@@ -34,7 +34,6 @@ COPY logback.xml /etc/puppetlabs/puppetserver/
 COPY request-logging.xml /etc/puppetlabs/puppetserver/
 
 COPY init.rb /
-COPY r10k.yaml.erb /
 COPY entrypoint.sh /
 
 RUN puppet config set autosign true --section master
