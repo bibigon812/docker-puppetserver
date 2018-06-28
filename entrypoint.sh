@@ -10,12 +10,14 @@ function loop_update_from_git {
   /init.rb
   # END Setup r10k
 
+  mkdir -p ${GIT_TEMP_DIR}
+  pushd ${GIT_TEMP_DIR}
+
+  sleep ${GIT_TIMEOUT}
+
   CERT=$(puppet config print hostcert)
   KEY=$(puppet config print hostprivkey)
   CACERT=$(puppet config print localcacert)
-
-  mkdir -p ${GIT_TEMP_DIR}
-  pushd ${GIT_TEMP_DIR}
 
   while true; do
     if [ ! -d '.git' ]; then
@@ -45,8 +47,6 @@ function loop_update_from_git {
         -X DELETE \
         "https://$(hostname -f):8140/puppet-admin-api/v1/environment-cache"
     fi
-
-    sleep ${GIT_TIMEOUT}
   done
 
   popd
