@@ -18,6 +18,7 @@ Just specify GIT_REMOTE.
 ---
 name: puppet
 image: bibigon812/puppetserver
+hostname: puppet
 ports:
     - 8140:8140
 env:
