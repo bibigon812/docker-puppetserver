@@ -18,7 +18,7 @@ push:
   stage: push
   only:
     - tags
-  scripts:
+  script:
     - docker tag $CONTAINER:latest $CONTAINER:$CI_COMMIT_TAG
     - docker push $CONTAINER:latest
     - docker push $CONTAINER:$CI_COMMIT_TAG
