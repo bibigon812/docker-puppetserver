@@ -56,7 +56,6 @@ if [ -n "${GIT_REMOTE}" ]; then
   loop_update_from_git &
 fi
 
-
 if [ -n "${PUPPETDB_SERVER_URLS}" ]; then
   sed -i "s@^server_urls.*@server_urls = ${PUPPETDB_SERVER_URLS}@" /etc/puppetlabs/puppet/puppetdb.conf
 fi

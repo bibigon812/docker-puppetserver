@@ -9,8 +9,7 @@ ENV CACHE_DIR="/var/cache/r10k" \
     GIT_TIMEOUT=30 \
     HEALTHCHECK_ENVIRONMENT="production" \
     PATH=/opt/puppetlabs/server/bin:/opt/puppetlabs/puppet/bin:/opt/puppetlabs/bin:$PATH \
-    PUPPETSERVER_JAVA_ARGS="-Xms1g -Xmx1g -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger" \
-    R10K_CONFIG_TEMPLATE="/r10k.yaml.erb" \
+    JAVA_ARGS="-Xms1g -Xmx1g -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger" \
     R10K_CONFIG_DIR="/etc/puppetlabs/r10k"
 
 RUN apt-get update && \
@@ -34,7 +33,6 @@ COPY logback.xml /etc/puppetlabs/puppetserver/
 COPY request-logging.xml /etc/puppetlabs/puppetserver/
 
 COPY init.rb /
-COPY r10k.yaml.erb /
 COPY entrypoint.sh /
 
 RUN puppet config set autosign true --section master
@@ -44,7 +42,7 @@ EXPOSE 8140
 ENTRYPOINT ["dumb-init", "/entrypoint.sh"]
 CMD ["foreground"]
 
-HEALTHCHECK --interval=30s --timeout=20s --retries=90 CMD \
+HEALTHCHECK --interval=10s --timeout=10s --retries=90 CMD \
   curl --fail -H 'Accept: pson' \
     --resolve 'puppet:8140:127.0.0.1' \
     --cert   $(puppet config print hostcert) \

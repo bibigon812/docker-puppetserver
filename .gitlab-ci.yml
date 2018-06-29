@@ -6,8 +6,7 @@ stages:
   - push
 
 variables:
-  CONTAINER: puppetserver-5
-  REGISTRY: docker-registry.spbtv.com
+  CONTAINER: puppetserver
 
 build:
   stage: build
@@ -17,7 +16,12 @@ build:
 push:
   stage: push
   only:
-    - tags
+    refs:
+      - tags
+    variables:
+      - $REGISTRY
+  dependencies:
+    - build
   script:
     - docker tag $CONTAINER:latest $REGISTRY/$CONTAINER:latest
     - docker tag $CONTAINER:latest $REGISTRY/$CONTAINER:$CI_COMMIT_TAG
