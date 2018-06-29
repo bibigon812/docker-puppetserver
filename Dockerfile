@@ -1,8 +1,8 @@
-ARG code_name=bionic
+ARG code_name=xenial
 FROM ubuntu:${code_name}
 
 ENV CACHE_DIR="/var/cache/r10k" \
-    CODE_NAME=${code_name:-bionic} \
+    CODE_NAME=${code_name:-xenial} \
     DUMB_INIT_VERSION="1.2.1" \
     ENVIRONMENTS_BASE_DIR="/etc/puppetlabs/code/environments" \
     GIT_TEMP_DIR="/tmp/git" \
