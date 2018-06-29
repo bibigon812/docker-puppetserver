@@ -1,0 +1,29 @@
+---
+image: docker:stable
+
+stages:
+  - build
+  - push
+
+variables:
+  CONTAINER: puppetserver
+
+build:
+  stage: build
+  script:
+    - docker build --rm --force-rm --pull --tag $CONTAINER:latest .
+
+push:
+  stage: push
+  only:
+    refs:
+      - tags
+    variables:
+      - $REGISTRY
+  dependencies:
+    - build
+  script:
+    - docker tag $CONTAINER:latest $REGISTRY/$CONTAINER:latest
+    - docker tag $CONTAINER:latest $REGISTRY/$CONTAINER:$CI_COMMIT_TAG
+    - docker push $REGISTRY/$CONTAINER:latest
+    - docker push $REGISTRY/$CONTAINER:$CI_COMMIT_TAG
