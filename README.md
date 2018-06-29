@@ -1,8 +1,30 @@
 # Puppetserver
 
+This docker container contains puppetserver, r10k, librarian-puppet. It checks
+$GIT_REMOTE repo for changes and runs `r10k deploy environment`.
+Librarian-puppet install all modules from Puppetfile with their dependencies
+for each environment.
+
+The $GIT_REMOTE tree might look like this:
+
+```shell
+├── Puppetfile
+├── README.md
+├── data
+│   ├── common
+...
+│   └── nodes
+├── environment.conf
+├── hiera.yaml
+├── manifests
+│   └── site.pp
+└── modules
+```
+
 ## Environment Variables
 
-Just specify GIT_REMOTE.
+$GIT_REMOTE contains a URL with a user name and a token, for example
+https://username:token@git.example.com/a/b.git
 
 ### Defaults
 
@@ -14,14 +36,10 @@ Just specify GIT_REMOTE.
 
 ## Deployment
 
-```yaml
-image: bibigon812/puppetserver
-hostname: puppet
-ports:
-    - 8140:8140
-env:
-    GIT_REMOTE: https://username:token@git.example.com/project/repo.git
-volumes:
-    - /srv/puppet/ssl:/etc/puppetlabs/puppet/ssl/
-    - /srv/puppet/serverdata:/opt/puppetlabs/server/data/puppetserver/
+```shell
+docker run --rm --name puppetserver \
+    --env GIT_REMOTE=https://username:token@git.example.com/a/b.git \
+    --volume /srv/puppet/ssl:/etc/puppetlabs/puppet/ssl/ \
+    --volume /srv/puppet/serverdata:/opt/puppetlabs/server/data/puppetserver/ \
+    --hostname puppet --dns-search . bibigon812/puppetserver
 ```
