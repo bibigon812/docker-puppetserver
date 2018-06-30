@@ -2,7 +2,7 @@
 
 This docker container contains puppetserver, r10k, librarian-puppet. It checks
 $GIT_REMOTE repo for changes and runs `r10k deploy environment`.
-Librarian-puppet install all modules from Puppetfile with their dependencies
+Librarian-puppet installs all modules from Puppetfile with their dependencies
 for each environment.
 
 The $GIT_REMOTE tree might look like this:
